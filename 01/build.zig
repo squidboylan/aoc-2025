@@ -28,17 +28,33 @@ pub fn build(b: *std.Build) void {
     // to our consumers. We must give it a name because a Zig package can expose
     // multiple modules and consumers will need to be able to specify which
     // module they want to access.
-    const mod = b.addModule("_01", .{
+    const common = b.addModule("common", .{
         // The root source file is the "entry point" of this module. Users of
         // this module will only be able to access public declarations contained
         // in this file, which means that if you have declarations that you
         // intend to expose to consumers that were defined in other files part
         // of this module, you will have to make sure to re-export them from
         // the root file.
-        .root_source_file = b.path("src/root.zig"),
+        .root_source_file = b.path("src/common.zig"),
         // Later on we'll use this module as the root module of a test executable
         // which requires us to specify a target.
         .target = target,
+    });
+
+    const p1 = b.addModule("p1", .{
+        .root_source_file = b.path("src/p1.zig"),
+        .target = target,
+        .imports = &.{
+            .{ .name = "common", .module = common },
+        },
+    });
+
+    const p2 = b.addModule("p2", .{
+        .root_source_file = b.path("src/p2.zig"),
+        .target = target,
+        .imports = &.{
+            .{ .name = "common", .module = common },
+        },
     });
 
     // Here we define an executable. An executable needs to have a root module
@@ -78,7 +94,8 @@ pub fn build(b: *std.Build) void {
                 // repeated because you are allowed to rename your imports, which
                 // can be extremely useful in case of collisions (which can happen
                 // importing modules from different packages).
-                .{ .name = "_01", .module = mod },
+                .{ .name = "p1", .module = p1 },
+                .{ .name = "p2", .module = p2 },
             },
         }),
     });
@@ -119,7 +136,7 @@ pub fn build(b: *std.Build) void {
     // Here `mod` needs to define a target, which is why earlier we made sure to
     // set the releative field.
     const mod_tests = b.addTest(.{
-        .root_module = mod,
+        .root_module = common,
     });
 
     // A run step that will run the test executable.
