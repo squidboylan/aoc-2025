@@ -9,9 +9,10 @@ pub fn get_pass(input: []const u8) !u64 {
     var it = common.rot_iterator(input);
     while (it.next()) |t| {
         switch (t.direction) {
-            .L => dial -= t.clicks,
-            .R => dial += t.clicks,
+            .L => dial -= @mod(t.clicks, 100),
+            .R => dial += @mod(t.clicks, 100),
         }
+
         if (dial < 0) {
             dial = dial + 100;
         }

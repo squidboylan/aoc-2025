@@ -1,7 +1,7 @@
 const std = @import("std");
 const p1 = @import("p1");
 const p2 = @import("p2");
-const expect = std.testing.expect;
+const expectEqual = std.testing.expectEqual;
 
 pub fn main() !void {
     // Prints to stderr, ignoring potential errors.
@@ -18,8 +18,10 @@ pub fn main() !void {
 
     _ = try std.fs.Dir.readFile(std.fs.cwd(), "input", data);
     std.debug.print("{d}\n", .{file_size});
-    const o = try p1.get_pass(data);
-    std.debug.print("p1 password: {d}\n", .{o});
+    const o1 = try p1.get_pass(data);
+    std.debug.print("p1 password: {d}\n", .{o1});
+    const o2 = try p2.get_pass(data);
+    std.debug.print("p2 password: {d}\n", .{o2});
 }
 
 test "p1 example input" {
@@ -36,7 +38,7 @@ test "p1 example input" {
         \\L82
         ;
     const o = try p1.get_pass(input);
-    try expect(o == 3);
+    try expectEqual(3, o);
 }
 
 test "p2 example input" {
@@ -53,5 +55,5 @@ test "p2 example input" {
         \\L82
         ;
     const o = try p2.get_pass(input);
-    try expect(o == 3);
+    try expectEqual(6, o);
 }

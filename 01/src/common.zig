@@ -19,7 +19,7 @@ const Rotation = struct {
 const RotationIterator = struct {
     it: SplitString,
     pub fn next(self: *RotationIterator) ?Rotation {
-        const x = self.it.next().?;
+        const x = self.it.next() orelse return null;
         var d = Direction.L;
         if (x.len == 0) {
             return null;
@@ -32,8 +32,7 @@ const RotationIterator = struct {
             std.debug.print("{s}\n", .{x});
             unreachable;
         }
-        var clicks = std.fmt.parseUnsigned(i64, x[1..], 10) catch { unreachable; };
-        clicks = @mod(clicks, 100);
+        const clicks = std.fmt.parseUnsigned(i64, x[1..], 10) catch { unreachable; };
         return Rotation{
             .direction = d,
             .clicks = clicks,
