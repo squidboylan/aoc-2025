@@ -18,28 +18,24 @@ pub fn count_invalid(input: []const u8, allocator: std.mem.Allocator) !u64 {
                 continue;
             }
             const end = curr_s.len / 2;
-            outer: for (1..end + 1) |pat_end| {
-                const pat = curr_s[0..pat_end];
-                var pat_app_start: u64 = 0;
-                var match = true;
-                var rep: u64 = 0;
-                while (pat_app_start < curr_s.len and match == true) {
-                    if (pat_app_start + pat.len > curr_s.len or rep >= 2) {
-                        match = false;
-                        break;
-                    }
-                    if (!std.mem.eql(u8, pat, curr_s[pat_app_start .. pat_app_start + pat.len])) {
-                        match = false;
-                        break;
-                    }
-                    pat_app_start += pat_end;
-                    rep += 1;
+            const pat = curr_s[0..end];
+            var pat_app_start: u64 = 0;
+            var match = true;
+            var rep: u64 = 0;
+            while (pat_app_start < curr_s.len and match == true) {
+                if (pat_app_start + pat.len > curr_s.len or rep >= 2) {
+                    match = false;
+                    break;
                 }
-                if (match == true) {
-                    std.debug.print("match: {s}\n", .{curr_s});
-                    invalid += curr;
-                    break :outer;
+                if (!std.mem.eql(u8, pat, curr_s[pat_app_start .. pat_app_start + pat.len])) {
+                    match = false;
+                    break;
                 }
+                pat_app_start += pat.len;
+                rep += 1;
+            }
+            if (match == true) {
+                invalid += curr;
             }
         }
     }
