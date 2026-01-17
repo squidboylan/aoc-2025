@@ -1,0 +1,42 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-test:
+    runs-on: arc-runners
+    container:
+      image: ghcr.io/${{ github.repository }}:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+      options: --user 1002:1002
+    permissions:
+      contents: read
+      packages: read
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Verify Zig installation
+      run: zig version
+    
+    - name: build day 1
+      run: cd 01 && zig build
+    - name: build day 2
+      run: cd 02 && zig build
+    
+    - name: Run day 1 tests
+      run: cd 01 && zig build test
+    - name: Run day 2 tests
+      run: cd 02 && zig build test
