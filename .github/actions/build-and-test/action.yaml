@@ -1,0 +1,12 @@
+description: "My reusable GitHub Action"
+inputs:
+  day:
+    description: 'aoc day to run job on'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: build day ${{ inputs.day }}
+      run: cd ${{ inputs.day }} && zig build
+    - name: test day ${{ inputs.day }}
+      run: cd ${{ inputs.day }} && zig build test
