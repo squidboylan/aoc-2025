@@ -32,10 +32,10 @@ jobs:
     
     - uses: ./.github/actions/build-and-test
       with:
-        day: 01
+        day: "01"
     - uses: ./.github/actions/build-and-test
       with:
-        day: 02
+        day: "02"
     - uses: ./.github/actions/build-and-test
       with:
-        day: 03
+        day: "03"
