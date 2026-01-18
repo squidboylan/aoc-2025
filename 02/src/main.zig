@@ -22,14 +22,14 @@ pub fn main() !void {
 
 test "p1 test" {
     const input = "11-22,95-115,998-1012,1188511880-1188511890,222220-222224,1698522-1698528,446443-446449,38593856-38593862,565653-565659,824824821-824824827,2121212118-2121212124";
-    const allocator = std.heap.page_allocator;
+    const allocator = std.testing.allocator;
     const o = try p1.count_invalid(input, allocator);
     try expectEqual(1227775554, o);
 }
 
 test "p2 test" {
     const input = "11-22,95-115,998-1012,1188511880-1188511890,222220-222224,1698522-1698528,446443-446449,38593856-38593862,565653-565659,824824821-824824827,2121212118-2121212124";
-    const allocator = std.heap.page_allocator;
+    const allocator = std.testing.allocator;
     const o = try p2.count_invalid(input, allocator);
     try expectEqual(4174379265, o);
 }
