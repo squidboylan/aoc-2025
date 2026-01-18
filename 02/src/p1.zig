@@ -13,6 +13,7 @@ pub fn count_invalid(input: []const u8, allocator: std.mem.Allocator) !u64 {
         };
         for (first..last + 1) |curr| {
             const curr_s = try std.fmt.allocPrint(allocator, "{d}", .{curr});
+            defer allocator.free(curr_s);
             // Skip odd lengths as they'll never match
             if (curr_s.len % 2 != 0) {
                 continue;
