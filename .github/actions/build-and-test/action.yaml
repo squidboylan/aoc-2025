@@ -7,6 +7,8 @@ runs:
   using: "composite"
   steps:
     - name: build day ${{ inputs.day }}
+      shell: bash
       run: cd ${{ inputs.day }} && zig build
     - name: test day ${{ inputs.day }}
+      shell: bash
       run: cd ${{ inputs.day }} && zig build test
