@@ -1,0 +1,32 @@
+name: Reusable zig build and test in directory
+
+on:
+  workflow_call:
+    inputs:
+      dir:
+        required: true
+        type: string
+
+jobs:
+  build-and-test:
+    runs-on: arc-runners
+    container:
+      image: ghcr.io/${{ github.repository }}:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    permissions:
+      contents: read
+      packages: read
+    
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v6
+    
+    - name: Verify Zig installation
+      run: zig version
+    
+    - uses: ./.github/actions/build-and-test
+      with:
+        day: ${{ inputs.dir }}

@@ -12,33 +12,19 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  build-and-test:
-    runs-on: arc-runners
-    container:
-      image: ghcr.io/${{ github.repository }}:latest
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-    permissions:
-      contents: read
-      packages: read
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v6
-    
-    - name: Verify Zig installation
-      run: zig version
-    
-    - uses: ./.github/actions/build-and-test
-      with:
-        day: "01"
-    - uses: ./.github/actions/build-and-test
-      with:
-        day: "02"
-    - uses: ./.github/actions/build-and-test
-      with:
-        day: "03"
-    - uses: ./.github/actions/build-and-test
-      with:
-        day: "04"
+  build-and-test-01:
+    uses: ./.github/workflows/build-and-test-template
+    with:
+      day: "01"
+  build-and-test-02:
+    uses: ./.github/workflows/build-and-test-template
+    with:
+      day: "02"
+  build-and-test-03:
+    uses: ./.github/workflows/build-and-test-template
+    with:
+      day: "03"
+  build-and-test-04:
+    uses: ./.github/workflows/build-and-test-template
+    with:
+      day: "04"
