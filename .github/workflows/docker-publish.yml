@@ -14,7 +14,7 @@ env:
 
 jobs:
   build-and-push:
-    runs-on: arc-runners
+    runs-on: arc-runners-dind
     permissions:
       contents: read
       packages: write
