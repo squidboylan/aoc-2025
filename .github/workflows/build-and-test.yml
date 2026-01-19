@@ -28,3 +28,7 @@ jobs:
     uses: ./.github/workflows/build-and-test-template.yml
     with:
       dir: "04"
+  build-and-test-05:
+    uses: ./.github/workflows/build-and-test-template.yml
+    with:
+      dir: "05"
