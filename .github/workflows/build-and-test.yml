@@ -15,16 +15,16 @@ jobs:
   build-and-test-01:
     uses: ./.github/workflows/build-and-test-template.yml
     with:
-      day: "01"
+      dir: "01"
   build-and-test-02:
     uses: ./.github/workflows/build-and-test-template.yml
     with:
-      day: "02"
+      dir: "02"
   build-and-test-03:
     uses: ./.github/workflows/build-and-test-template.yml
     with:
-      day: "03"
+      dir: "03"
   build-and-test-04:
     uses: ./.github/workflows/build-and-test-template.yml
     with:
-      day: "04"
+      dir: "04"
