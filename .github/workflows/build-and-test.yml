@@ -39,3 +39,6 @@ jobs:
     - uses: ./.github/actions/build-and-test
       with:
         day: "03"
+    - uses: ./.github/actions/build-and-test
+      with:
+        day: "04"
