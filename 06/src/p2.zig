@@ -42,21 +42,9 @@ pub fn do_math(input: []const u8, allocator: std.mem.Allocator) !u64 {
             }
         }
 
-        var sign = signs.next().?;
-        while (sign.len == 0) {
-            sign = signs.next().?;
-        }
-        var line_total = curr_col.items[0];
+        const sign = common.get_next_sign(&signs);
 
-        for (1..curr_col.items.len) |i| {
-            if (std.mem.eql(u8, sign, "*")) {
-                line_total *= curr_col.items[i];
-            } else if (std.mem.eql(u8, sign, "+")) {
-                line_total += curr_col.items[i];
-            } else {
-                unreachable;
-            }
-        }
+        const line_total = common.apply_sign_to_slice(sign, curr_col.items);
         curr_col.clearRetainingCapacity();
         total += line_total;
     }
